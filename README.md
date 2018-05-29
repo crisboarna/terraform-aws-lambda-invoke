@@ -9,7 +9,7 @@
 * [Usage](#usage)
 * [Deployment](#deployment)
 * [Example](#example)
-
+* [Pull Requests](#pull-requests)
 ## Features
 
 - Expandable Execution Role with unlimited policies that can be attached
@@ -21,7 +21,7 @@
 ```hcl-terraform
 module "lambda-invoke" {
   source  = "crisboarna/lambda-invoke/aws"
-  version = "0.2.1"
+  version = "0.1.0"
 
   # insert the 10 required variables here
 }
@@ -87,3 +87,6 @@ module "lambda_module" {
   }
 }
 ```
+
+## Pull Requests
+Pull requests are welcome !
