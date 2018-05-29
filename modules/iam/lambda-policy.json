@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Action": [
+        "lamdba:InvokeFunction",
+        "lambda:InvokeAsync"
+      ],
+      "Resource": "${lambda_arns}"
+    }
+  ]
+}
