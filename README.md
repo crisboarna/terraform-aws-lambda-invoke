@@ -66,7 +66,7 @@ module "lambda_module" {
   lambda_runtime = "nodejs8.10"
   lambda_handler = "dist/bin/lambda.handler"
   lambda_timeout = 30
-  lambda_code_s3_bucket = "awesome-project-bucket"
+  lambda_code_s3_bucket_new = "awesome-project-bucket"
   lambda_code_s3_key = "awesome-project.zip"
   lambda_code_s3_storage_class = "ONEZONE_IA"
   lambda_code_s3_bucket_visibility = "private"
