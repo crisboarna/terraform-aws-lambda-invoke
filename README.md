@@ -13,7 +13,7 @@
 ## Features
 
 - Expandable Execution Role with unlimited policies that can be attached
-  - Achieved by either creating own `aws_iam_role_policy_attachment` referencing exposed `lambda_role_arn` or by setting `lambda_arns` to list of desired Lambda's to be executed
+  - Achieved by either creating own `aws_iam_role_policy_attachment` referencing exposed `lambda_role_arn` or by setting `lambda_policy_arn_list` and `lambda_policy_action_list` to list of desired Lambda's to be executed
 - Code uploaded from local path
 - Full configuration exposure while abstracting S3 and IAM permission handling
 
@@ -72,8 +72,9 @@ module "lambda_module" {
   lambda_code_s3_bucket_visibility = "private"
   lambda_zip_path = "../../awesome-project.zip"
   lambda_memory_size = 256
-  lambda_arns = ['arn:aws:lambda:us-east-1:123456789012:function:ProcessKinesisRecords',
+  lambda_policy_arn_list = ['arn:aws:lambda:us-east-1:123456789012:function:ProcessKinesisRecords',
   'arn:aws:lambda:us-east-1:123456789012:function:ProcessKinesisRecords:$PROD']
+  lambda_policy_action_list = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
   
   #Tags
   tags = {
