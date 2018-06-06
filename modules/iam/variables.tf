@@ -2,6 +2,13 @@ variable "lambda_name" {
   description = "The name of the Lambda function"
 }
 
-variable "lambda_arns" {
-  description = "The ARNs of Lambda you want to allow execution of"
+variable "policy_arn_list" {
+  description = "The ARNs of resources you want to allow execution of"
+  type = "list"
+}
+
+variable "policy_action_list" {
+  description = "The Actions you want to allow Lambda execution of"
+  type = "list"
+  default = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
 }

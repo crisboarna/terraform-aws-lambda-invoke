@@ -37,5 +37,6 @@ module "iam" {
 
   #Setup
   lambda_name = "${local.lambda_function_name}"
-  lambda_arns = "${var.lambda_arns}"
+  policy_arn_list = "${var.lambda_policy_arn_list}"
+  policy_action_list = "${var.lambda_policy_action_list}"
 }

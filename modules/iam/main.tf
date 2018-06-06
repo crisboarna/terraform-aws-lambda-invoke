@@ -1,7 +1,8 @@
 data "template_file" "lambda_target_policy" {
   template = "${file("${path.module}/lambda-policy.json")}"
   vars {
-    lambda_arns = "${var.lambda_arns}"
+    policy_arn_list = "${var.policy_arn_list}"
+    policy_action_list = "${var.policy_action_list}"
   }
 }
 

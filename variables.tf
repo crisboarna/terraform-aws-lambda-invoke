@@ -81,7 +81,14 @@ variable "lambda_memory_size" {
   description = "Lambda memory size"
 }
 
-variable "lambda_arns" {
-  description = "List of Lambda ARNs that this Lambda can execute"
-  default = "arn:aws:lambda:*:*:*:*"
+variable "lambda_policy_arn_list" {
+  description = "The ARNs of resources you want to allow execution of"
+  type = "list"
+  default = ["arn:aws:lambda:*:*:*:*"]
+}
+
+variable "lambda_policy_action_list" {
+  description = "The Actions you want to allow Lambda execution of"
+  type = "list"
+  default = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
 }
