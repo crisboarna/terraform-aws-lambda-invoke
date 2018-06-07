@@ -17,11 +17,22 @@
 - Code uploaded from local path
 - Full configuration exposure while abstracting S3 and IAM permission handling
 
+**NOTE**
+
+I have tried to allow Lambda to call various types of services with differing actions by making `lambda_policy_arn_list` and `lambda_policy_action_list` to be lists of lists or maps but code became very complex and non-functional due to current Terraform limitations:
+ - Modules do not accept `count` parameter
+   - Could not create submodule creating the `aws_iam_role_policy` for every action-arn combination
+ - `template_file` only accepts strings, not lists so have to interpolate every list to string
+ - Due to above and `formatlist` evaluating parameters at compile time before dereferencing a `var.list[count.index]` it errors due to requiring at least 1 list parameter
+   - This also cannot be circumvented by providing two lists as workaround (Ex: `formatlist("etc%setc", list(""), var.list[count.index])`)) as to provide size matching empty dummy list is very cumbersome and the underlying Go `fmt` package returns `%!(EXTRA type=value)` as output if wrong size given to `formatlist`
+   - `element` cannot be used as it expects flat list and errors if presented with list of lists
+
+Until any of these have been fixed, please use the output `lambda_role_id` to extend the created Lambda's IAM permissions.
 ## Usage
 ```hcl-terraform
 module "lambda-invoke" {
   source  = "crisboarna/lambda-invoke/aws"
-  version = "0.1.0"
+  version = "0.3.0"
 
   # insert the 10 required variables here
 }
@@ -72,8 +83,7 @@ module "lambda_module" {
   lambda_code_s3_bucket_visibility = "private"
   lambda_zip_path = "../../awesome-project.zip"
   lambda_memory_size = 256
-  lambda_policy_arn_list = ['arn:aws:lambda:us-east-1:123456789012:function:ProcessKinesisRecords',
-  'arn:aws:lambda:us-east-1:123456789012:function:ProcessKinesisRecords:$PROD']
+  lambda_policy_arn_list = "${list(module.some_other_module.arn, module.some_another_module.arn}"
   lambda_policy_action_list = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
   
   #Tags
