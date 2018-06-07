@@ -10,5 +10,5 @@ variable "policy_arn_list" {
 variable "policy_action_list" {
   description = "The Actions you want to allow Lambda execution of"
   type = "list"
-  default = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
+  default = ["lambda:InvokeFunction", "lambda:InvokeAsync"]
 }
