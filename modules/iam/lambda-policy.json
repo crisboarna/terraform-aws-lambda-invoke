@@ -4,8 +4,8 @@
     {
       "Sid": "PublicReadGetObject",
       "Effect": "Allow",
-      "Action": "${policy_action_list}",
-      "Resource": "${policy_arn_list}"
+      "Action": [${policy_action_list}],
+      "Resource": [${policy_arn_list}]
     }
   ]
 }
