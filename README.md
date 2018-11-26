@@ -10,6 +10,7 @@
 * [Deployment](#deployment)
 * [Example](#example)
 * [Pull Requests](#pull-requests)
+
 ## Features
 
 - Expandable Execution Role with unlimited policies that can be attached
@@ -18,6 +19,11 @@
 - Full configuration exposure while abstracting S3 and IAM permission handling
 
 **NOTE**
+
+This module is created with full customization by user.
+Can use either local filename path `lambda_file_name` or remote S3 bucket configuration.
+
+**Must** use either the local filename or S3 option as they are mutually exclusive. 
 
 I have tried to allow Lambda to call various types of services with differing actions by making `lambda_policy_arn_list` and `lambda_policy_action_list` to be lists of lists or maps but code became very complex and non-functional due to current Terraform limitations:
  - Modules do not accept `count` parameter

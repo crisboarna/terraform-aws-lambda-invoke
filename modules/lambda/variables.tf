@@ -6,7 +6,7 @@ variable "tags" {
 }
 
 # ENV VARS
-variable "environmentVariables" {
+variable "environment_variables" {
   type = "map"
   description = "Environment variables"
 }
@@ -41,12 +41,15 @@ variable "lambda_timeout" {
   default = 30
 }
 
+variable "lambda_file_name" {
+  description = "Path to lambda code zip"
+}
+
 variable "lambda_code_s3_bucket_new" {
   description = "S3 bucket with source code"
 }
 
 variable "lambda_code_s3_bucket_use_existing" {
-  default = "true"
   description = "Boolean flag to specify whether to use 'lambda_code_s3_bucket_new' and create new bucket or to use 'lambda_code_s3_bucket_existing and use existing S3 bucket and now a generate new one"
 }
 
@@ -55,21 +58,19 @@ variable "lambda_code_s3_bucket_existing" {
 }
 
 variable "lambda_code_s3_key" {
-  description = "The S3 key of source code"
+  description = "Location of Lambda code in S3 bucket"
 }
 
 variable "lambda_code_s3_storage_class" {
-  default = "ONEZONE_IA"
-  description = "S3 object storage class"
+  description = "Lambda code S3 storage class"
 }
 
 variable "lambda_code_s3_bucket_visibility" {
-  default = "private"
   description = "S3 bucket ACL"
 }
 
 variable "lambda_zip_path" {
-  description = "Local path to Lambda source dist"
+  description = "Local path to Lambda zip code"
 }
 
 variable "lambda_memory_size" {
