@@ -11,6 +11,11 @@
 * [Example](#example)
 * [Pull Requests](#pull-requests)
 
+
+***Attention***
+
+Starting from version 1.1.0, this module targets Terraform 0.12+. If you are using Terraform <=v0.11 you must use up to version 1.0.0.
+
 ## Features
 
 - Expandable Execution Role with unlimited policies that can be attached
@@ -21,9 +26,10 @@
 **NOTE**
 
 This module is created with full customization by user.
-Can use either local filename path `lambda_file_name` or remote S3 bucket configuration.
+- Can use either local filename path `lambda_file_name` or remote S3 bucket configuration.
+- Supports Lambda Layers
+- Supports VPC
 
-**Must** use either the local filename or S3 option as they are mutually exclusive. 
 
 I have tried to allow Lambda to call various types of services with differing actions by making `lambda_policy_arn_list` and `lambda_policy_action_list` to be lists of lists or maps but code became very complex and non-functional due to current Terraform limitations:
  - Modules do not accept `count` parameter
@@ -38,7 +44,7 @@ Until any of these have been fixed, please use the output `lambda_role_id` to ex
 ```hcl-terraform
 module "lambda-invoke" {
   source  = "crisboarna/lambda-invoke/aws"
-  version = "0.3.0"
+  version = "1.1.0"
 
   # insert the 10 required variables here
 }
@@ -52,7 +58,7 @@ module "lambda-invoke" {
 5. Run `terraform apply -var-file="<.tfvars file>` to deploy infrastructure
 
 **Example Deployment Script**
-```js
+```sh
 #!/usr/bin/env bash
 
 if [[ ! -d .terraform ]]; then
@@ -71,7 +77,7 @@ terraform apply -var-file=$1
 ```hcl-terraform
 module "lambda_module" {
   source  = "crisboarna/terraform-aws-lambda-invoke"
-  version = "v0.1.0"
+  version = "v1.1.0"
 
   #Global
   region = "eu-west-1"
@@ -91,7 +97,10 @@ module "lambda_module" {
   lambda_memory_size = 256
   lambda_policy_arn_list = "${list(module.some_other_module.arn, module.some_another_module.arn}"
   lambda_policy_action_list = ["lamdba:InvokeFunction", "lambda:InvokeAsync"]
-  
+  lambda_vpc_security_group_ids = [aws_security_group.vpc_security_group.id]
+  lambda_vpc_subnet_ids = [aws_subnet.vpc_subnet_a.id]
+  lambda_layers = [data.aws_lambda_layer_version.layer.arn]
+
   #Tags
   tags = {
     project = "Awesome Project"
@@ -99,7 +108,7 @@ module "lambda_module" {
   }
   
   #Lambda Environment variables
-  environmentVariables = {
+  environment_variables = {
     NODE_ENV = "production"
   }
 }
